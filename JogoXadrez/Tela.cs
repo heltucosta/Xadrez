@@ -36,8 +36,33 @@ namespace JogoXadrez
                 Console.WriteLine();
             }
             Console.WriteLine("  A B C D E F G H");
-            Console.WriteLine("\nTurno: " + partida.turno);
+
+            imprimirPecasCapturadas(partida);
+
+            Console.WriteLine("\nTurno: " + partida.turno);            
             Console.WriteLine("Jogador atual: " + partida.jogadorAtual);
+        }
+
+        public static void imprimirPecasCapturadas(PartidaXadrez partida)
+        {
+            Console.WriteLine("\nPeças capturadas: ");
+            Console.Write("Brancas: ");
+            imprimirConjunto(partida.PecasCapturadas(Cor.Branca));            
+            Console.Write("Pretas: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            imprimirConjunto(partida.PecasCapturadas(Cor.Preta));
+            Console.ForegroundColor = aux;
+        }
+
+        public static void imprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[");
+            foreach (Peca peca in conjunto)
+            {
+                Console.Write(peca + " ");
+            }
+            Console.WriteLine("]");
         }
 
         public static Posicao LerMovimento(string tipo)
