@@ -83,24 +83,24 @@ namespace JogoXadrez
         {
             /*
              * 8 - - T R T - - -
-             * 7 - - T T T - - -
+             * 7 - - B T T - - -
              * 6 - - - - - - - -
              * 5 - - - - - - - -
              * 4 - - - - - - - -
              * 3 - - - - - - - -
-             * 2 - - T T T - - -
+             * 2 - - B T T - - -
              * 1 - - T R T - - -
              *   a b c d e f g h
              */
             colocarNovaPeca('c', 1, new Torre(tab, Cor.Branca));
-            colocarNovaPeca('c', 2, new Torre(tab, Cor.Branca));
+            colocarNovaPeca('c', 2, new Bispo(tab, Cor.Branca));
             colocarNovaPeca('d', 1, new Rei(tab, Cor.Branca));
             colocarNovaPeca('d', 2, new Torre(tab, Cor.Branca));
             colocarNovaPeca('e', 1, new Torre(tab, Cor.Branca));
             colocarNovaPeca('e', 2, new Torre(tab, Cor.Branca));
 
             colocarNovaPeca('c', 8, new Torre(tab, Cor.Preta));
-            colocarNovaPeca('c', 7, new Torre(tab, Cor.Preta));
+            colocarNovaPeca('c', 7, new Bispo(tab, Cor.Preta));
             colocarNovaPeca('d', 8, new Rei(tab, Cor.Preta));
             colocarNovaPeca('d', 7, new Torre(tab, Cor.Preta));
             colocarNovaPeca('e', 8, new Torre(tab, Cor.Preta));
