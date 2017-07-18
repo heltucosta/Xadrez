@@ -12,6 +12,7 @@ namespace JogoXadrez
         public Tabuleiro tabuleiro {get; private set; }
         public Posicao posicao { get; set; }
         public Cor cor { get; private set; }
+        public int qteMovimentos { get; set; }
 
         public Peca(char nome, Tabuleiro tab, Cor cor)
         {
@@ -19,6 +20,7 @@ namespace JogoXadrez
             this.posicao = null;
             this.tabuleiro = tab;
             this.cor = cor;
+            qteMovimentos = 0;
         }
 
         public override string ToString()
@@ -31,6 +33,16 @@ namespace JogoXadrez
             if (tabuleiro.peca(destino) == null || tabuleiro.peca(destino).cor != cor)
                 return true;
             return false;
+        }
+
+        public void incrementarMovimentos()
+        {
+            qteMovimentos++;
+        }
+
+        public void decrementarMovimentos()
+        {
+            qteMovimentos--;
         }
 
         public abstract bool[,] movimentosPossiveis();
