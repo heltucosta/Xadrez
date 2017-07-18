@@ -8,10 +8,7 @@ namespace JogoXadrez
 {
     class Rainha : Peca
     {
-        public Rainha(Tabuleiro tab, Cor cor) : base('Q', tab, cor)
-        {
-
-        }
+        public Rainha(Tabuleiro tab, Cor cor) : base('Q', tab, cor){ }
 
         public override bool[,] movimentosPossiveis()
         {
