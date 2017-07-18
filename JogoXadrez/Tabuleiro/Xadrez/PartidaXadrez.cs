@@ -64,6 +64,13 @@ namespace JogoXadrez
                     Console.ReadLine();
                 }                
             }
+
+            if (acabouPartida)
+            {
+                Console.WriteLine("XEQUE-MATE");
+                Console.WriteLine(jogadorAtual + " venceu o jogo!");
+                Console.ReadLine();
+            }
         }
 
         public void colocarNovaPeca(char coluna, int linha, Peca peca)
@@ -99,17 +106,6 @@ namespace JogoXadrez
             colocarNovaPeca('e', 8, new Torre(tab, Cor.Preta));
             colocarNovaPeca('e', 7
                 , new Torre(tab, Cor.Preta));
-        }
-
-        public void RealizarJogada() {
-            Console.Write("Origem: ");
-            string s = Console.ReadLine();
-            char coluna = s[0];
-            int linha = s[1];
-
-            Peca pecaSelecionada = tab.peca(new PosicaoXadrez(coluna, linha).toPosicao());
-            if(pecaSelecionada != null)
-                Console.WriteLine(pecaSelecionada);            
         }
 
         public void AlterarTurno()
@@ -194,8 +190,44 @@ namespace JogoXadrez
                 xeque = false;
             }
 
-            turno++;
-            mudaJogador();                    
+            if (testeXequeMate(adversario(jogadorAtual)))
+                acabouPartida = true;
+            else
+            {
+                turno++;
+                mudaJogador();
+            }                     
+        }
+
+        public bool testeXequeMate(Cor cor)
+        {
+            Peca Rei = rei(cor);
+
+            if (!EstaEmXeque(cor))
+                return false;
+
+            foreach (Peca peca in pecasEmJogo(cor))
+            {
+                bool[,] mat = peca.movimentosPossiveis();
+                for (int i = 0; i < tab.linhas; i++)
+                {
+                    for (int j = 0; j < tab.colunas; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Posicao origem = peca.posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca pCapturada = executaMovimento(origem, destino);
+                            bool testeXeque = EstaEmXeque(cor);
+                            desfazMovimento(origem, new Posicao(i, j), pCapturada);
+
+                            if (!testeXeque)
+                                return false;
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void mudaJogador()
