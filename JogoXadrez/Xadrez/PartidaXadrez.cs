@@ -17,7 +17,7 @@ namespace JogoXadrez
         {
             tab = new Tabuleiro(8, 8);
             this.jogadorAtual = Cor.Branca;
-            turno = 0;
+            turno = 1;
             PosicionarPecas();
 
             acabouPartida = false;
@@ -36,23 +36,27 @@ namespace JogoXadrez
                     Tela.imprimirPartida(this);
 
                     origem = Tela.LerMovimento("origem");
+                    ValidarPosicaoOrigem(origem);
+
                     mat = tab.peca(origem).movimentosPossiveis();
 
                     Tela.imprimirMovimentosPossiveis(this.tab, mat);
 
 
                     destino = Tela.LerMovimento("destino");
+                    ValidarPosicaoDestino(origem, destino);
 
-                    executaMovimento(origem, destino);
-                    AlterarTurno();
+                    RealizaJogada(origem, destino);
                 }
                 catch(TabuleiroException e)
                 {
                     Console.WriteLine(e.Message);
+                    Console.ReadLine();
                 }
                 catch(Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    Console.ReadLine();
                 }                
             }
         }
@@ -118,6 +122,41 @@ namespace JogoXadrez
                 }
                 tab.colocarPeca(aux, destino);
             }
+        }
+
+        public void RealizaJogada(Posicao origem, Posicao destino)
+        {
+            executaMovimento(origem, destino);
+            turno++;
+            mudaJogador();                    
+        }
+
+        public void mudaJogador()
+        {
+            if (jogadorAtual == Cor.Branca)
+                jogadorAtual = Cor.Preta;
+            else
+                jogadorAtual = Cor.Branca;
+        }
+
+        public void ValidarPosicaoOrigem(Posicao pos)
+        {
+            if(tab.peca(pos) == null)
+            {
+                throw new TabuleiroException("Não existe peça na posição de origem");
+            }
+
+            if (tab.peca(pos).cor != jogadorAtual)
+                throw new TabuleiroException("A peça escolhida não é sua!");
+
+            if (!tab.peca(pos).existeMovimentosPossiveis())
+                throw new TabuleiroException("Não existe movimentos possiveis para essa peça.");
+        }
+
+        public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
+        {
+            if (!tab.peca(origem).podeMoverPara(destino))
+                throw new TabuleiroException("Você não pode mover para a posição de destino.");
         }
     }
 }
