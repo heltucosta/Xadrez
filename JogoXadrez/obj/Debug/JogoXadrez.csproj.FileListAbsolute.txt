@@ -1,0 +1,6 @@
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\bin\Debug\JogoXadrez.exe.config
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\bin\Debug\JogoXadrez.exe
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\bin\Debug\JogoXadrez.pdb
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\obj\Debug\JogoXadrez.csprojResolveAssemblyReference.cache
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\obj\Debug\JogoXadrez.exe
+c:\users\heltu\documents\visual studio 2017\Projects\JogoXadrez\JogoXadrez\obj\Debug\JogoXadrez.pdb
