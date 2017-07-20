@@ -8,7 +8,10 @@ namespace JogoXadrez
 {
     class Peao : Peca
     {
-        public Peao(Tabuleiro tab, Cor cor) : base('P', tab, cor) { }
+        private PartidaXadrez partida;
+        public Peao(Tabuleiro tab, Cor cor, PartidaXadrez partida) : base('P', tab, cor) {
+            this.partida = partida;
+        }
 
         public override bool[,] movimentosPossiveis()
         {
@@ -38,6 +41,22 @@ namespace JogoXadrez
                 pos.definirValores(posicao.linha - 1, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && podeMover(pos))
                     mat[pos.linha, pos.coluna] = true;
+
+                // #jogadaespecial ENPASSANT
+                if(posicao.linha == 3)
+                {
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if(tabuleiro.posicaoValida(esquerda) && tabuleiro.existePeca(esquerda) && tabuleiro.peca(esquerda).cor != cor && tabuleiro.peca(esquerda) == partida.EnPassantVulneravel)
+                    {
+                        mat[esquerda.linha - 1, esquerda.coluna] = true;
+                    }
+
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && tabuleiro.existePeca(direita) && tabuleiro.peca(direita).cor != cor && tabuleiro.peca(direita) == partida.EnPassantVulneravel)
+                    {
+                        mat[direita.linha - 1 , direita.coluna] = true;
+                    }
+                }
             }
             else
             {
@@ -62,8 +81,23 @@ namespace JogoXadrez
                 pos.definirValores(posicao.linha + 1, posicao.coluna);
                 if (tabuleiro.posicaoValida(pos) && podeMover(pos))
                     mat[pos.linha, pos.coluna] = true;
-            }
 
+                // #jogadaespecial ENPASSANT
+                if (posicao.linha == 4)
+                {
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tabuleiro.posicaoValida(esquerda) && tabuleiro.existePeca(esquerda) && tabuleiro.peca(esquerda).cor != cor && tabuleiro.peca(esquerda) == partida.EnPassantVulneravel)
+                    {
+                        mat[esquerda.linha + 1, esquerda.coluna] = true;
+                    }
+
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && tabuleiro.existePeca(direita) && tabuleiro.peca(direita).cor != cor && tabuleiro.peca(direita) == partida.EnPassantVulneravel)
+                    {
+                        mat[direita.linha + 1, direita.coluna] = true;
+                    }
+                }
+            }
 
             return mat;
         }
