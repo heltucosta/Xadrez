@@ -279,7 +279,40 @@ namespace JogoXadrez
                 throw new TabuleiroException("Você não pode se colocar em xeque!");
             }
 
-            if (EstaEmXeque(adversario(jogadorAtual)))
+            Peca p = tab.peca(destino);
+
+            // #jogada especial promoção
+            if (p is Peao)
+            {
+                Peca promovido;
+                if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Preta && destino.linha == 7))
+                {
+                    p = tab.removerPeca(destino);
+                    pecas.Remove(p);
+                    Console.WriteLine("Digite para qual tipo de peça deseja promover o seu peão: (R)ainha, (B)ispo, (C)avalo, (T)orre. (Padrão será rainha)");
+                    string tipo = Console.ReadLine();
+                    switch (tipo[0])
+                    {
+                        case 'C':
+                            promovido = new Cavalo(tab, p.cor);
+                            break;
+                        case 'B':
+                            promovido = new Bispo(tab, p.cor);
+                            break;
+                        case 'T':
+                            promovido = new Torre(tab, p.cor);
+                            break;
+                        default:
+                            promovido = new Rainha(tab, p.cor);
+                            break;
+
+                    }                    
+                    tab.colocarPeca(promovido, destino);
+                    pecas.Add(promovido);
+                }
+            }
+
+                if (EstaEmXeque(adversario(jogadorAtual)))
             {
                 xeque = true;
             }
@@ -295,8 +328,7 @@ namespace JogoXadrez
                 turno++;
                 mudaJogador();
             }
-
-            Peca p = tab.peca(destino);
+            
             // # jogadaespecial ENPASSANT
             if(p is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2))
             {
